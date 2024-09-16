@@ -16,6 +16,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,10 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.kotlinroid.eventease.ui.theme.ViewModel
 import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController = rememberNavController(),
+                  viewModel: ViewModel = remember { ViewModel() }) {
 
     Column(
         modifier = Modifier
@@ -43,7 +48,7 @@ fun WelcomeScreen() {
 
         // Login Button
         Button(
-            onClick = {},
+            onClick = {viewModel.navigateToLogin(navController)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 24.dp)
@@ -65,7 +70,7 @@ fun WelcomeScreen() {
 
         // Regsiter Button
         Button(
-            onClick = {},
+            onClick = {viewModel.navigateToRegister(navController)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 24.dp, end = 24.dp)
@@ -93,5 +98,6 @@ fun WelcomeScreen() {
 @Preview(showBackground = true)
 @Composable
 fun WelcomeScreenPreview() {
+
     WelcomeScreen()
 }

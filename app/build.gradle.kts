@@ -55,6 +55,8 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.7.1")
     implementation("androidx.compose.material:material:1.7.1")
     implementation("androidx.navigation:navigation-compose:2.8.0")
+    implementation("androidx.compose.material:material-icons-extended:<latest-version>")
+
 
 
     implementation(libs.androidx.core.ktx)

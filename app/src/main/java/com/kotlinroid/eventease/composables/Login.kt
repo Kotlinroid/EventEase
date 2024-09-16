@@ -73,7 +73,7 @@ fun Login(
 
         // Back Button
         Row(modifier = Modifier
-            .padding(24.dp)
+            .padding(top = 24.dp, start = 24.dp)
             .clickable { navController.popBackStack() }
             .border(
                 BorderStroke(2.dp, Color.LightGray),
@@ -105,7 +105,7 @@ fun Login(
                 .padding(start = 16.dp, top = 16.dp),
             text = "Welcome back! Glad",
             fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.ExtraBold,
+            fontWeight = FontWeight.Bold,
             color = Color.Black,
             fontSize = 32.sp
         )
@@ -154,7 +154,7 @@ fun Login(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
 
         // Password TextFiled

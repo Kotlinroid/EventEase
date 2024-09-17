@@ -21,7 +21,9 @@ val provider = GoogleFont.Provider(
 
 val poppins = GoogleFont("Poppins")
 val poppinsFontFamily = FontFamily(
-    Font(googleFont = poppins, fontProvider = provider)
+    Font(googleFont = poppins, fontProvider = provider),
+    androidx.compose.ui.text.font.Font(R.font.poppins_bold, FontWeight.Bold),
+    androidx.compose.ui.text.font.Font(R.font.poppins_semibold, FontWeight.SemiBold)
 )
 
 // Set of Material typography styles to start with

@@ -62,7 +62,7 @@ fun Register(navController: NavController = rememberNavController(),
 ){
 
     var isPasswordVisible by remember { mutableStateOf(false) }
-    var PhoneNumber by rememberSaveable { mutableStateOf("") }
+    var phoneNumber by rememberSaveable { mutableStateOf("") }
 
 
     Column(
@@ -179,7 +179,7 @@ fun Register(navController: NavController = rememberNavController(),
                 )
             },
             label = { Text(text = "Phone Number") },
-            value = PhoneNumber, onValueChange = { PhoneNumber = it },
+            value = phoneNumber, onValueChange = { phoneNumber = it },
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color.Blue,

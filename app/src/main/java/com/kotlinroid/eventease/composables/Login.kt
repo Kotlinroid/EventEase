@@ -104,7 +104,7 @@ fun Login(
                 .padding(start = 16.dp, top = 16.dp),
             text = "Welcome back! Glad",
             fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = Color.Black,
             fontSize = 32.sp
         )
@@ -114,7 +114,7 @@ fun Login(
                 .padding(start = 16.dp),
             text = "to see you, Again!",
             fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = Color.Black,
             fontSize = 32.sp
         )

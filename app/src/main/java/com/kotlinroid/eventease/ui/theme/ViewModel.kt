@@ -21,4 +21,8 @@ class ViewModel: ViewModel() {
     fun navigateToLogin(navController: NavController) {
         navController.navigate("login_screen")
     }
+
+    fun navigateToForgotPassword(navController: NavController) {
+        navController.navigate("forgot_password_screen")
+    }
 }

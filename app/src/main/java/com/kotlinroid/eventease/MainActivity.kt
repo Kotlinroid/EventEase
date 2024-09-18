@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kotlinroid.eventease.composables.ForgotPassword
 import com.kotlinroid.eventease.composables.Login
 import com.kotlinroid.eventease.composables.Register
 import com.kotlinroid.eventease.composables.WelcomeScreen
@@ -45,6 +46,9 @@ fun MyApp(viewModel: ViewModel) {
         }
         composable("register_screen") {
             Register(navController, viewModel)
+        }
+        composable("forgot_password_screen") {
+            ForgotPassword(navController, viewModel)
         }
 
     }

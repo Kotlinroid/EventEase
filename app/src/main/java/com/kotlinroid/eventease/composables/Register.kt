@@ -107,7 +107,7 @@ fun Register(navController: NavController = rememberNavController(),
                 .padding(start = 16.dp, top = 16.dp),
             text = "Hello! Register to get",
             fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = Color.Black,
             fontSize = 32.sp
         )
@@ -117,7 +117,7 @@ fun Register(navController: NavController = rememberNavController(),
                 .padding(start = 16.dp),
             text = "Started",
             fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.SemiBold,
             color = Color.Black,
             fontSize = 32.sp
         )

@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -46,7 +47,10 @@ import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
 fun ForgotPassword(navController: NavController = rememberNavController(),
-                   viewModel: ViewModel = remember { ViewModel() }) {
+                   viewModel: ViewModel = remember { ViewModel() })
+{
+
+    val padding = integerResource(id = R.integer.padding)
 
 
     Column(
@@ -58,7 +62,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
 
         // Back Button
         Row(modifier = Modifier
-            .padding(top = 24.dp, start = 24.dp)
+            .padding(top = padding.dp, start = padding.dp)
             .clickable { navController.popBackStack() }
             .border(
                 BorderStroke(2.dp, Color.LightGray),
@@ -87,18 +91,21 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp),
-            text = "Forgot Your Password?",
+                .padding(start = padding.dp, top = 16.dp, end = padding.dp),
+            text = "Forgot Password?",
+            maxLines = 2,
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold,
             color = Color.Black,
-            fontSize = 32.sp
+            fontSize = 32.sp,
+            lineHeight = 48.sp,
+
         )
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
-            text = "Provide your account's email for which\nyou want to reset your password!",
+                .padding(start = padding.dp, end = padding.dp),
+            text = "Provide your account's email for which you want to reset your password!",
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.Normal,
             color = Color.Black,
@@ -110,7 +117,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                .padding(start = padding.dp, end = padding.dp, top = 16.dp)
                 .height(70.dp),
             textStyle = TextStyle(
                 fontFamily = poppinsFontFamily,
@@ -129,11 +136,11 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
             value = viewModel.email.value, onValueChange = { viewModel.email.value = it },
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Blue,
+                focusedBorderColor = Color(0xFF006DBD),
                 unfocusedBorderColor = Color.Gray,
-                focusedLabelColor = Color.Blue,
+                focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
-                cursorColor = Color.Blue,
+                cursorColor = Color(0xFF006DBD),
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
@@ -147,7 +154,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
             onClick = { /*TODO*/ },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = padding.dp, end = padding.dp)
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(

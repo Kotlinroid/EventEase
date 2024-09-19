@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +32,11 @@ import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
 fun WelcomeScreen(navController: NavController = rememberNavController(),
-                  viewModel: ViewModel = remember { ViewModel() }) {
+                  viewModel: ViewModel = remember { ViewModel() })
+{
+
+    val padding = integerResource(id = R.integer.padding)
+
 
     Column(
         modifier = Modifier
@@ -51,7 +56,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
             onClick = {viewModel.navigateToLogin(navController)},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp)
+                .padding(start = padding.dp, end = padding.dp)
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
@@ -73,7 +78,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
             onClick = {viewModel.navigateToRegister(navController)},
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp)
+                .padding(start = padding.dp, end = padding.dp)
                 .height(60.dp)
                 .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),

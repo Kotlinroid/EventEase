@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -61,6 +62,7 @@ fun Login(
 ) {
 
     var isPasswordVisible by remember { mutableStateOf(false) }
+    val padding = integerResource(id = R.integer.padding)
 
     Column(
         modifier = Modifier
@@ -72,7 +74,7 @@ fun Login(
 
         // Back Button
         Row(modifier = Modifier
-            .padding(top = 24.dp, start = 24.dp)
+            .padding(top = padding.dp, start = padding.dp)
             .clickable { navController.popBackStack() }
             .border(
                 BorderStroke(2.dp, Color.LightGray),
@@ -101,29 +103,20 @@ fun Login(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, top = 16.dp),
-            text = "Welcome back! Glad",
+                .padding(start = padding.dp, top = 16.dp, end = padding.dp),
+            text = "Welcome back! Glad to see you, Again!",
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold,
             color = Color.Black,
-            fontSize = 32.sp
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp),
-            text = "to see you, Again!",
-            fontFamily = poppinsFontFamily,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.Black,
-            fontSize = 32.sp
+            fontSize = 32.sp,
+            lineHeight = 48.sp
         )
 
         // Email TextField
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                .padding(start = padding.dp, end = padding.dp, top = 16.dp)
                 .height(70.dp),
             textStyle = TextStyle(
                 fontFamily = poppinsFontFamily,
@@ -142,11 +135,11 @@ fun Login(
             value = viewModel.email.value, onValueChange = { viewModel.email.value = it },
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Blue,
+                focusedBorderColor = Color(0xFF006DBD),
                 unfocusedBorderColor = Color.Gray,
-                focusedLabelColor = Color.Blue,
+                focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
-                cursorColor = Color.Blue,
+                cursorColor = Color(0xFF006DBD),
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
@@ -160,7 +153,7 @@ fun Login(
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = padding.dp, end = padding.dp)
                 .height(70.dp),
             textStyle = TextStyle(
                 fontFamily = poppinsFontFamily,
@@ -179,11 +172,11 @@ fun Login(
             value = viewModel.password.value, onValueChange = { viewModel.password.value = it },
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Color.Blue,
+                focusedBorderColor = Color(0xFF006DBD),
                 unfocusedBorderColor = Color.Gray,
-                focusedLabelColor = Color.Blue,
+                focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
-                cursorColor = Color.Blue,
+                cursorColor = Color(0xFF006DBD),
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.Black
             ),
@@ -208,7 +201,7 @@ fun Login(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = padding.dp, end = padding.dp)
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -228,7 +221,7 @@ fun Login(
             onClick = { /*TODO*/ },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(start = padding.dp, end = padding.dp)
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
@@ -246,7 +239,9 @@ fun Login(
         }
 
 
-        Spacer(modifier = Modifier.height(16.dp).weight(1f))
+        Spacer(modifier = Modifier
+            .height(16.dp)
+            .weight(1f))
 
         // Register Text
         Row(

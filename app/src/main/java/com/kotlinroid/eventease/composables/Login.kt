@@ -218,7 +218,7 @@ fun Login(
 
         // Login Button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { viewModel.navigateToHome(navController) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)

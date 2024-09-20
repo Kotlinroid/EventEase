@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.kotlinroid.eventease" />
+                  <option name="mobileSdkAppId" value="1:946369778309:android:0e7806bff6b94752b24fec" />
+                  <option name="projectId" value="eventease-70739" />
+                  <option name="projectNumber" value="946369778309" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

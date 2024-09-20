@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "946369778309",
+    "project_id": "eventease-70739",
+    "storage_bucket": "eventease-70739.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:946369778309:android:0e7806bff6b94752b24fec",
+        "android_client_info": {
+          "package_name": "com.kotlinroid.eventease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrAI7ZBbTDftSqnvAxjuGEiEh-utJboDU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

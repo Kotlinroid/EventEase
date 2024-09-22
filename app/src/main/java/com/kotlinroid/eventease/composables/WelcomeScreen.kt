@@ -1,6 +1,7 @@
 package com.kotlinroid.eventease.composables
 
 import android.app.Activity
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -18,6 +19,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,14 +31,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.kotlinroid.eventease.ui.theme.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.kotlinroid.eventease.AuthState
+import com.kotlinroid.eventease.AuthViewModel
+
+
 import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
+import kotlinx.coroutines.launch
 
 @Composable
 fun WelcomeScreen(navController: NavController = rememberNavController(),
-                  viewModel: ViewModel = remember { ViewModel() })
+                  authViewModel: AuthViewModel = remember { AuthViewModel() },
+                  )
 {
 
     val padding = integerResource(id = R.integer.padding)
@@ -43,6 +54,20 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
     val activity = (LocalContext.current as? Activity)
     BackHandler {
         activity?.finish()
+    }
+
+
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> { navController.navigate("home_screen") }
+            is AuthState.Error -> Toast.makeText(context, (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT ).show()
+            else -> {}
+        }
+
     }
 
 
@@ -61,7 +86,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
 
         // Login Button
         Button(
-            onClick = {viewModel.navigateToLogin(navController)},
+            onClick = {navController.navigate("login_screen")},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
@@ -83,7 +108,7 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
 
         // Regsiter Button
         Button(
-            onClick = {viewModel.navigateToRegister(navController)},
+            onClick = {navController.navigate("register_screen")},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
@@ -108,9 +133,9 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
 
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun WelcomeScreenPreview() {
-
     WelcomeScreen()
 }

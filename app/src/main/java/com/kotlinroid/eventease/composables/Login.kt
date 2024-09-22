@@ -1,5 +1,7 @@
 package com.kotlinroid.eventease.composables
 
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,13 +33,17 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -51,18 +57,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.kotlinroid.eventease.AuthState
+import com.kotlinroid.eventease.AuthViewModel
 import com.kotlinroid.eventease.R
-import com.kotlinroid.eventease.ui.theme.ViewModel
+import com.kotlinroid.eventease.ViewModel
 import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
 fun Login(
     navController: NavController = rememberNavController(),
-    viewModel: ViewModel = remember { ViewModel() }
+    authViewModel: AuthViewModel = remember { AuthViewModel() },
+    viewModel: com.kotlinroid.eventease.ViewModel,
 ) {
+    val isInPreview = LocalInspectionMode.current
+    val auth = if (!isInPreview) FirebaseAuth.getInstance() else null
+
+
 
     var isPasswordVisible by remember { mutableStateOf(false) }
     val padding = integerResource(id = R.integer.padding)
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Authenticated -> { navController.navigate("home_screen") }
+            is AuthState.Error -> Toast.makeText(context, (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT ).show()
+            else -> {}
+        }
+
+    }
+
+    BackHandler {
+        navController.navigate("welcome_screen")
+    }
 
     Column(
         modifier = Modifier
@@ -210,7 +240,7 @@ fun Login(
                 fontFamily = poppinsFontFamily,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.clickable { viewModel.navigateToForgotPassword(navController) }
+                modifier = Modifier.clickable { navController.navigate("forgot_password_screen") }
             )
         }
 
@@ -218,7 +248,10 @@ fun Login(
 
         // Login Button
         Button(
-            onClick = { viewModel.navigateToHome(navController) },
+            onClick = {
+                authViewModel.login(auth, viewModel.email.value, viewModel.password.value)
+            },
+            enabled = authState.value != AuthState.Loading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
@@ -260,7 +293,7 @@ fun Login(
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFF006DBD),
-                modifier = Modifier.clickable { viewModel.navigateToRegister(navController) }
+                modifier = Modifier.clickable { navController.navigate("register_screen") }
             )
 
         }
@@ -273,5 +306,6 @@ fun Login(
 @Preview(showBackground = true)
 @Composable
 fun LoginPreview() {
-    Login()
+    val viewModel = remember { ViewModel() }
+    Login(viewModel = viewModel)
 }

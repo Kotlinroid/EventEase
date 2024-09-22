@@ -1,5 +1,6 @@
 package com.kotlinroid.eventease.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -32,7 +34,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,6 +44,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -53,18 +59,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.kotlinroid.eventease.AuthState
+import com.kotlinroid.eventease.AuthViewModel
 import com.kotlinroid.eventease.R
-import com.kotlinroid.eventease.ui.theme.ViewModel
+import com.kotlinroid.eventease.ViewModel
 import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
-fun Register(navController: NavController = rememberNavController(),
-             viewModel: ViewModel = remember { ViewModel() }
-){
+fun Register(
+    navController: NavController = rememberNavController(),
+    authViewModel: AuthViewModel = remember { AuthViewModel() },
+    viewModel: com.kotlinroid.eventease.ViewModel
+) {
+    val isInPreview = LocalInspectionMode.current
+    val auth = if (!isInPreview) FirebaseAuth.getInstance() else null
 
     var isPasswordVisible by remember { mutableStateOf(false) }
     var phoneNumber by rememberSaveable { mutableStateOf("") }
+    var firstName by rememberSaveable { mutableStateOf("") }
+    var lastName by rememberSaveable { mutableStateOf("") }
     val padding = integerResource(id = R.integer.padding)
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Authenticated -> {
+                navController.navigate("home_screen")
+            }
+
+            is AuthState.Error -> Toast.makeText(
+                context,
+                (authState.value as AuthState.Error).message,
+                Toast.LENGTH_SHORT
+            ).show()
+
+            else -> {}
+        }
+
+    }
 
 
     Column(
@@ -107,7 +142,7 @@ fun Register(navController: NavController = rememberNavController(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, top = 16.dp, end = padding.dp),
-            text = "Hello! Register to get Started1",
+            text = "Hello! Register to get Started",
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold,
             color = Color.Black,
@@ -116,11 +151,83 @@ fun Register(navController: NavController = rememberNavController(),
         )
 
 
-        // Email TextField
+        // First Name TextField
         OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp, top = 16.dp)
+                .height(70.dp),
+            textStyle = TextStyle(
+                fontFamily = poppinsFontFamily,
+                textAlign = TextAlign.Left,
+                fontSize = 16.sp
+            ),
+            singleLine = true,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.AccountBox,
+                    contentDescription = "",
+                    tint = Color.Black
+                )
+            },
+            label = { Text(text = "First Name") },
+            value = firstName, onValueChange = { firstName = it },
+            shape = RoundedCornerShape(8.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF006DBD),
+                unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color(0xFF006DBD),
+                unfocusedLabelColor = Color.Gray,
+                cursorColor = Color(0xFF006DBD),
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Last Name TextField
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = padding.dp, end = padding.dp)
+                .height(70.dp),
+            textStyle = TextStyle(
+                fontFamily = poppinsFontFamily,
+                textAlign = TextAlign.Left,
+                fontSize = 16.sp
+            ),
+            singleLine = true,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.AccountBox,
+                    contentDescription = "",
+                    tint = Color.Black
+                )
+            },
+            label = { Text(text = "Last Name") },
+            value = lastName, onValueChange = { lastName = it },
+            shape = RoundedCornerShape(8.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFF006DBD),
+                unfocusedBorderColor = Color.Gray,
+                focusedLabelColor = Color(0xFF006DBD),
+                unfocusedLabelColor = Color.Gray,
+                cursorColor = Color(0xFF006DBD),
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
+            ),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Email TextField
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = padding.dp, end = padding.dp)
                 .height(70.dp),
             textStyle = TextStyle(
                 fontFamily = poppinsFontFamily,
@@ -136,7 +243,7 @@ fun Register(navController: NavController = rememberNavController(),
                 )
             },
             label = { Text(text = "Email") },
-            value = viewModel.email.value, onValueChange = { viewModel.email.value = it},
+            value = viewModel.email.value, onValueChange = { viewModel.email.value = it },
             shape = RoundedCornerShape(8.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color(0xFF006DBD),
@@ -239,7 +346,22 @@ fun Register(navController: NavController = rememberNavController(),
 
         // Register Button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (viewModel.email.value.isEmpty() || viewModel.password.value.isEmpty() || phoneNumber.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
+                    Toast.makeText(context, "Fill all the fields", Toast.LENGTH_SHORT).show()
+                } else {
+                    authViewModel.register(
+                        auth = auth,
+                        context = context,
+                        email = viewModel.email.value,
+                        password = viewModel.password.value,
+                        phoneNumber = phoneNumber.toLong(),
+                        firstName = firstName,
+                        lastName = lastName
+                    )
+                }
+            },
+            enabled = authState.value != AuthState.Loading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
@@ -259,7 +381,10 @@ fun Register(navController: NavController = rememberNavController(),
 
         }
 
-        Spacer(modifier = Modifier.height(16.dp).weight(1f))
+        Spacer(
+            modifier = Modifier
+                .height(32.dp)
+        )
 
         // Login Text
         Row(
@@ -278,7 +403,7 @@ fun Register(navController: NavController = rememberNavController(),
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFF006DBD),
-                modifier = Modifier.clickable { viewModel.navigateToLogin(navController) }
+                modifier = Modifier.clickable { navController.navigate("login_screen") }
             )
 
         }
@@ -292,5 +417,6 @@ fun Register(navController: NavController = rememberNavController(),
 @Preview(showBackground = true)
 @Composable
 fun RegisterPreview() {
-    Register()
+    val viewModel = remember { ViewModel() }
+    Register(viewModel = viewModel)
 }

@@ -1,8 +1,8 @@
 package com.kotlinroid.eventease.composables
 
-
 import android.app.Activity
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
@@ -43,15 +43,17 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 import com.kotlinroid.eventease.*
-import com.kotlinroid.eventease.ui.theme.ViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -61,7 +63,8 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun Home(
     navController: NavController = rememberNavController(),
-    viewModel: ViewModel = remember { ViewModel() }
+    authViewModel: AuthViewModel = remember { AuthViewModel() },
+
 ) {
 
     val events = listOf(
@@ -81,6 +84,21 @@ fun Home(
         )
 
     )
+
+    val isInPreview = LocalInspectionMode.current
+    val auth = if (!isInPreview) FirebaseAuth.getInstance() else null
+
+    val authState = authViewModel.authState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(authState.value) {
+        when(authState.value){
+            is AuthState.Unauthenticated -> { navController.navigate("login_screen") }
+            is AuthState.Error -> Toast.makeText(context, (authState.value as AuthState.Error).message, Toast.LENGTH_SHORT ).show()
+            else -> {}
+        }
+
+    }
 
     // Get the current date and time using LocalDateTime
     val current = LocalDateTime.now()
@@ -137,7 +155,7 @@ fun Home(
                     .height(48.dp)
                     .width(48.dp)
                     .clip(CircleShape)
-                    .clickable { },
+                    .clickable { authViewModel.logout(auth) },
                 contentAlignment = Alignment.Center
             )
             {

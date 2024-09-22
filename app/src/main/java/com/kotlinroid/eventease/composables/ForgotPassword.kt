@@ -1,5 +1,6 @@
 package com.kotlinroid.eventease.composables
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.integerResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -41,14 +44,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.kotlinroid.eventease.AuthState
+import com.kotlinroid.eventease.AuthViewModel
 import com.kotlinroid.eventease.R
-import com.kotlinroid.eventease.ui.theme.ViewModel
+import com.kotlinroid.eventease.ViewModel
 import com.kotlinroid.eventease.ui.theme.poppinsFontFamily
 
 @Composable
-fun ForgotPassword(navController: NavController = rememberNavController(),
-                   viewModel: ViewModel = remember { ViewModel() })
-{
+fun ForgotPassword(
+    navController: NavController = rememberNavController(),
+    authViewModel: AuthViewModel = remember { AuthViewModel() },
+    viewModel: ViewModel
+) {
+    val isInPreview = LocalInspectionMode.current
+    val auth = if (!isInPreview) FirebaseAuth.getInstance() else null
+    val context = LocalContext.current
 
     val padding = integerResource(id = R.integer.padding)
 
@@ -58,7 +69,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
             .fillMaxSize()
             .background(color = Color.White)
             .verticalScroll(rememberScrollState())
-    ){
+    ) {
 
         // Back Button
         Row(modifier = Modifier
@@ -100,7 +111,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
             fontSize = 32.sp,
             lineHeight = 48.sp,
 
-        )
+            )
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -111,7 +122,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
             color = Color.Black,
             fontSize = 16.sp,
 
-        )
+            )
 
         // Email TextField
         OutlinedTextField(
@@ -151,7 +162,12 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
 
         // Login Button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = {
+                if (viewModel.email.value.isEmpty()){
+                    Toast.makeText(context, "Please enter your email.", Toast.LENGTH_SHORT).show()
+                }else{
+                authViewModel.forgotPassword(auth = auth, email = viewModel.email.value, context = context) }},
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
@@ -177,6 +193,7 @@ fun ForgotPassword(navController: NavController = rememberNavController(),
 
 @Preview(showBackground = true)
 @Composable
-fun ForgotPasswordPreview(){
-    ForgotPassword()
+fun ForgotPasswordPreview() {
+    val viewModel = remember { ViewModel() }
+    ForgotPassword(viewModel = viewModel)
 }

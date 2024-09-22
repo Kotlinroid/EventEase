@@ -57,7 +57,6 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
     }
 
 
-
     val authState = authViewModel.authState.observeAsState()
     val context = LocalContext.current
 

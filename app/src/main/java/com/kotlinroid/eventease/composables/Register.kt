@@ -410,7 +410,6 @@ fun Register(
         Spacer(modifier = Modifier.height(16.dp))
 
     }
-
 }
 
 

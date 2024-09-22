@@ -85,6 +85,7 @@ fun Home(
 
     )
 
+
     val isInPreview = LocalInspectionMode.current
     val auth = if (!isInPreview) FirebaseAuth.getInstance() else null
 

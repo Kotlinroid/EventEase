@@ -22,6 +22,7 @@ import com.kotlinroid.eventease.composables.Login
 import com.kotlinroid.eventease.composables.Register
 import com.kotlinroid.eventease.composables.WelcomeScreen
 import com.kotlinroid.eventease.ui.theme.EventEaseTheme
+import com.kotlinroid.eventease.viewmodels.CardViewModel
 
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
@@ -30,11 +31,12 @@ class MainActivity : ComponentActivity() {
         FirebaseApp.initializeApp(this)
         setContent {
 
+            val cardViewModel: CardViewModel = viewModel()
             val authViewModel: AuthViewModel = viewModel()
             val viewModel: com.kotlinroid.eventease.ViewModel = viewModel()
             EventEaseTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    MyApp(authViewModel, viewModel)
+                    MyApp(authViewModel, viewModel, cardViewModel)
                 }
             }
         }
@@ -44,7 +46,8 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(authViewModel: AuthViewModel,
-          viewModel: com.kotlinroid.eventease.ViewModel
+          viewModel: com.kotlinroid.eventease.ViewModel,
+          cardViewModel: CardViewModel
           ) {
 
     val navController = rememberNavController()
@@ -63,7 +66,7 @@ fun MyApp(authViewModel: AuthViewModel,
             ForgotPassword(navController,  viewModel = viewModel)
         }
         composable("home_screen") {
-            Home(navController)
+            Home(navController, cardViewModel = cardViewModel)
 
         }
     }

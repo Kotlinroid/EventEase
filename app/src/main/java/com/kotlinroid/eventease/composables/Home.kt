@@ -137,7 +137,7 @@ fun Home(
         activity?.finish()
     }
 
-    val currentScreen = mutableStateOf<Screen>(Screen.Ticket)
+    val currentScreen = mutableStateOf<Screen>(Screen.Home)
     Scaffold(
         bottomBar = {
 
@@ -299,7 +299,7 @@ fun Home(
                 items(movies.size) { index ->
                     val item = movies[index]
                     val size = movies.size
-                    MoviesCard(item = item, index = index, size = size)
+                    MoviesCard(item = item, index = index, size = size, navController = navController)
                 }
             }
 
@@ -389,7 +389,7 @@ fun EventCard(item: Popular, index: Int = 1, size: Int = 1) {
 
 
                         Text(
-                            text = item.month.uppercase(),
+                            text = item.month.uppercase().take(3),
                             color = Color.Black,
                             fontSize = 13.sp,
                             fontFamily = poppinsFontFamily,
@@ -432,7 +432,7 @@ fun EventCard(item: Popular, index: Int = 1, size: Int = 1) {
 
 // Movies & Events Section Cards
 @Composable
-fun MoviesCard(item: Movies, index: Int = 1, size: Int = 1) {
+fun MoviesCard(item: Movies, index: Int = 1, size: Int = 1, navController: NavController) {
     val padding = integerResource(id = R.integer.padding)
     val context = LocalContext.current
 
@@ -450,9 +450,7 @@ fun MoviesCard(item: Movies, index: Int = 1, size: Int = 1) {
             .height(265.dp)
             .border(1.dp, Color(0xFFededed), RoundedCornerShape(16.dp))
             .clickable {
-                Toast
-                    .makeText(context, item.title, Toast.LENGTH_SHORT)
-                    .show()
+                navController.navigate("movie_detail/$index")
             }
             .background(color = Color(0xFFededed), shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -491,7 +489,7 @@ fun MoviesCard(item: Movies, index: Int = 1, size: Int = 1) {
 }
 
 
-// Popular Section Cards
+// Categories Section Cards
 @Composable
 fun CategorieCard(item: Categories, index: Int = 1, size: Int = 1) {
     val padding = integerResource(id = R.integer.padding)

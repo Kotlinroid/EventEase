@@ -9,16 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
 import com.kotlinroid.eventease.composables.ForgotPassword
 import com.kotlinroid.eventease.composables.Home
 import com.kotlinroid.eventease.composables.Login
+import com.kotlinroid.eventease.composables.MovieDetail
 import com.kotlinroid.eventease.composables.Register
 import com.kotlinroid.eventease.composables.WelcomeScreen
 import com.kotlinroid.eventease.ui.theme.EventEaseTheme
@@ -33,7 +32,7 @@ class MainActivity : ComponentActivity() {
 
             val cardViewModel: CardViewModel = viewModel()
             val authViewModel: AuthViewModel = viewModel()
-            val viewModel: com.kotlinroid.eventease.ViewModel = viewModel()
+            val viewModel: ViewModel = viewModel()
             EventEaseTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     MyApp(authViewModel, viewModel, cardViewModel)
@@ -46,7 +45,7 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MyApp(authViewModel: AuthViewModel,
-          viewModel: com.kotlinroid.eventease.ViewModel,
+          viewModel: ViewModel,
           cardViewModel: CardViewModel
           ) {
 
@@ -67,7 +66,10 @@ fun MyApp(authViewModel: AuthViewModel,
         }
         composable("home_screen") {
             Home(navController, cardViewModel = cardViewModel)
-
+        }
+        composable("movie_detail/{index}") {
+            val index = it.arguments?.getString("index")?.toIntOrNull()
+            MovieDetail(navController, index, cardViewModel)
         }
     }
 

@@ -5,5 +5,13 @@ data class Movies(
     val title: String,
     val type: String,
     val month: String,
-    val date: String
+    val date: String,
+    val year: String,
+    val genre: String,
+    val duration: String,
+    val language: String,
+    val certificate: String,
+    val description: String,
+    val price: String
+
 )

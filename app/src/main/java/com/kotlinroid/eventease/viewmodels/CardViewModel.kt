@@ -66,7 +66,14 @@ class CardViewModel : ViewModel() {
                     val type = document.getString("type") ?: ""
                     val month = document.getString("month") ?: ""
                     val date = document.getString("date") ?: ""
-                    fetchedmovies.add(Movies(image, title, type, month, date))
+                    val year = document.getString("year") ?: ""
+                    val genre = document.getString("genre") ?: ""
+                    val duration = document.getString("duration") ?: ""
+                    val language = document.getString("language") ?: ""
+                    val certificate = document.getString("certificate") ?: ""
+                    val description = document.getString("description") ?: ""
+                    val price = document.getString("price") ?: ""
+                    fetchedmovies.add(Movies(image, title, type, month, date, year, genre, duration, language, certificate, description, price))
                 }
             } catch (e: Exception) {
                 // Handle error
@@ -90,27 +97,5 @@ class CardViewModel : ViewModel() {
             _categories.value = fetchedcategories
         }
 
-//         fun fetchMovies() {
-//            viewModelScope.launch {
-//                val db1 = FirebaseFirestore.getInstance()
-//                val fetchedmovies = mutableListOf<Movies>()
-//
-//                try {
-//                    val snapshot = db.collection("movies").get().await()
-//                    for (document in snapshot.documents) {
-//                        val image = document.getString("image") ?: ""
-//                        val title = document.getString("title") ?: ""
-//                        val type = document.getString("type") ?: ""
-//                        val month = document.getString("month") ?: ""
-//                        val date = document.getString("date") ?: ""
-//                        fetchedmovies.add(Movies(image, title, type, month, date))
-//                    }
-//                } catch (e: Exception) {
-//                    // Handle error
-//                }
-//
-//                _movies.value = fetchedmovies
-//            }
-//        }
     }
 }

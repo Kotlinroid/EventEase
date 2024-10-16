@@ -49,23 +49,30 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firestore.admin.v1.Index
 import com.kotlinroid.eventease.*
@@ -74,11 +81,16 @@ import com.kotlinroid.eventease.data.Movies
 import com.kotlinroid.eventease.data.Popular
 import com.kotlinroid.eventease.data.Screen
 import com.kotlinroid.eventease.viewmodels.CardViewModel
+
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.sin
+import kotlin.time.Duration.Companion.seconds
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnrememberedMutableState", "UnusedMaterialScaffoldPaddingParameter",
     "UnusedMaterial3ScaffoldPaddingParameter"
 )
@@ -89,7 +101,12 @@ fun Home(
     authViewModel: AuthViewModel = remember { AuthViewModel() },
     cardViewModel: CardViewModel = remember { CardViewModel() }
 
+
 ) {
+
+    val refreshState = rememberPullToRefreshState()
+    var isRefreshing by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
 
     val items by cardViewModel.items.observeAsState(emptyList())
@@ -138,12 +155,26 @@ fun Home(
     }
 
     val currentScreen = mutableStateOf<Screen>(Screen.Home)
+
+    PullToRefreshBox(
+        state = refreshState,
+        isRefreshing = isRefreshing,
+        onRefresh = {
+            coroutineScope.launch {
+                isRefreshing = true
+                cardViewModel._fetchItems()
+                delay(1.seconds)
+                isRefreshing = false
+            }
+        }
+    )
+     {
     Scaffold(
         bottomBar = {
 
-                CustomBottomNavigation(currentScreenId = currentScreen.value.id) {
-                    currentScreen.value = it
-                }
+            CustomBottomNavigation(currentScreenId = currentScreen.value.id) {
+                currentScreen.value = it
+            }
 
         }
     ) { innerpadding ->
@@ -299,7 +330,12 @@ fun Home(
                 items(movies.size) { index ->
                     val item = movies[index]
                     val size = movies.size
-                    MoviesCard(item = item, index = index, size = size, navController = navController)
+                    MoviesCard(
+                        item = item,
+                        index = index,
+                        size = size,
+                        navController = navController
+                    )
                 }
             }
 
@@ -331,6 +367,8 @@ fun Home(
         }
 
     }
+
+}
 
 
 

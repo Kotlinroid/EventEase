@@ -35,6 +35,10 @@ class CardViewModel : ViewModel() {
 
     }
 
+    fun _fetchItems(){
+        fetchItems()
+    }
+
     private fun fetchItems() {
         viewModelScope.launch {
             val db = FirebaseFirestore.getInstance()

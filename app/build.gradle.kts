@@ -11,9 +11,10 @@ android {
     defaultConfig {
         applicationId = "com.kotlinroid.eventease"
         minSdk = 24
-        targetSdk = 34
+        //noinspection EditedTargetSdkVersion
+        targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.102"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

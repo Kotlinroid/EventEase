@@ -3,11 +3,9 @@ package com.kotlinroid.eventease.composables
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Build
-import android.provider.CalendarContract.Events
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

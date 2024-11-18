@@ -10,6 +10,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -180,7 +181,7 @@ fun Home(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White)
+                .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
                 .padding(innerpadding)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -198,12 +199,12 @@ fun Home(
                     Text(
                         text = formattedDate,
                         fontFamily = poppinsFontFamily,
-                        color = Color.Black
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
 
                     Text(
                         text = "Explore Events",
-                        color = Color.Black,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         fontFamily = poppinsFontFamily,
                         fontWeight = FontWeight.Bold,
                         fontSize = 32.sp
@@ -290,7 +291,7 @@ fun Home(
             {
                 Text(
                     text = "POPULAR".uppercase(),
-                    color = Color.Black,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontFamily = poppinsFontFamily,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
@@ -315,7 +316,7 @@ fun Home(
             {
                 Text(
                     text = "Movies & Events".uppercase(),
-                    color = Color.Black,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontFamily = poppinsFontFamily,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp
@@ -343,7 +344,7 @@ fun Home(
             Column(modifier = Modifier.padding(start = padding.dp, end = padding.dp)) {
                 Text(
                     text = "Categories".uppercase(),
-                    color = Color.Black,
+                    color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                     fontFamily = poppinsFontFamily,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 18.sp

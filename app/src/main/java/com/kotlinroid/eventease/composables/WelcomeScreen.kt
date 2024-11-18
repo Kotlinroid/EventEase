@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import com.kotlinroid.eventease.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -73,13 +74,13 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
     ) {
 
         Spacer(modifier = Modifier.height(70.dp))
 
         // Top Image for the Screen
-        Image(painter = painterResource(id = R.drawable.ticket_booking), contentDescription = null)
+        Image(painter = painterResource(id = R.drawable.ticket_booking), contentDescription = "ticket image")
 
         Spacer(modifier = Modifier.weight(1f))
 
@@ -92,11 +93,11 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White,
-                containerColor = Color.Black
+                contentColor = if (isSystemInDarkTheme()) Color.Black else Color.White,
+                containerColor = if (isSystemInDarkTheme()) Color.White else Color.Black
             )
         ) {
-            Text(text = "Login", color = Color.White,
+            Text(text = "Login", color = if (isSystemInDarkTheme()) Color.Black  else Color.White,
                 fontSize = 16.sp,
                 fontFamily = poppinsFontFamily,
                 fontWeight = FontWeight.Bold,)
@@ -112,11 +113,11 @@ fun WelcomeScreen(navController: NavController = rememberNavController(),
                 .fillMaxWidth()
                 .padding(start = padding.dp, end = padding.dp)
                 .height(60.dp)
-                .border(BorderStroke(2.dp, Color.Black), shape = RoundedCornerShape(8.dp)),
+                .border(BorderStroke(2.dp, if (isSystemInDarkTheme()) Color.White else Color.Black), shape = RoundedCornerShape(8.dp)),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                contentColor = Color.Black,
-                containerColor = Color.White
+                contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                containerColor = if (isSystemInDarkTheme()) Color.Black else Color.White
             )
         ) {
             Text(text = "Register",

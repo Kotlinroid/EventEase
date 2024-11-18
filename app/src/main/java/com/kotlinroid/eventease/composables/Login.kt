@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -97,7 +98,7 @@ fun Login(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
             .verticalScroll(rememberScrollState())
     )
     {
@@ -105,7 +106,7 @@ fun Login(
         // Back Button
         Row(modifier = Modifier
             .padding(top = padding.dp, start = padding.dp)
-            .clickable { navController.popBackStack() }
+            .clickable { navController.navigate("welcome_screen") }
             .border(
                 BorderStroke(2.dp, Color.LightGray),
                 shape = RoundedCornerShape(16.dp)
@@ -115,13 +116,13 @@ fun Login(
                 imageVector = Icons.Default.ArrowBackIosNew,
                 contentDescription = "Back Button",
                 modifier = Modifier.padding(16.dp),
-                tint = Color.Black
+                tint = if (isSystemInDarkTheme()) Color.White else Color.Black
             )
         }
 
         // Login Image
         Image(
-            painter = painterResource(id = R.drawable.login_image),
+            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.login_image1 else R.drawable.login_image),
             contentDescription = "Login Image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,7 +138,7 @@ fun Login(
             text = "Welcome back! Glad to see you, Again!",
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold,
-            color = Color.Black,
+            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
             fontSize = 32.sp,
             lineHeight = 48.sp
         )
@@ -158,7 +159,7 @@ fun Login(
                 Icon(
                     imageVector = Icons.Default.Email,
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )
             },
             label = { Text(text = "Email") },
@@ -170,8 +171,8 @@ fun Login(
                 focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
                 cursorColor = Color(0xFF006DBD),
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black
+                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                unfocusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
@@ -194,7 +195,7 @@ fun Login(
                 Icon(
                     imageVector = Icons.Default.Lock,
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )
             },
             singleLine = true,
@@ -207,8 +208,8 @@ fun Login(
                 focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
                 cursorColor = Color(0xFF006DBD),
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black
+                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                unfocusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
@@ -219,7 +220,7 @@ fun Login(
                     Icon(
                         imageVector = image,
                         contentDescription = if (isPasswordVisible) "Hide Password" else "Show Password",
-                        tint = Color.Black
+                        tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                     )
                 }
             }
@@ -236,7 +237,7 @@ fun Login(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = "Forgot Password?",
-                color = Color.DarkGray,
+                color = if (isSystemInDarkTheme()) Color.LightGray else Color.DarkGray,
                 fontFamily = poppinsFontFamily,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -258,8 +259,8 @@ fun Login(
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Black,
-                contentColor = Color.White
+                containerColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                contentColor = if (isSystemInDarkTheme()) Color.Black else Color.White
             )
         ) {
             Text(
@@ -284,7 +285,7 @@ fun Login(
             Text(
                 text = "Don't have an account? ",
                 fontFamily = poppinsFontFamily,
-                color = Color.Black,
+                color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                 fontWeight = FontWeight.SemiBold
             )
             Text(

@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -30,7 +31,7 @@ fun CustomBottomNavigation(
 
     Row(
         modifier= Modifier
-            .background(Color.White)
+            .background(if (isSystemInDarkTheme()) Color.Black else Color.White)
             .padding(12.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
@@ -55,7 +56,7 @@ fun CustomBottomNavigationItem(item:Screen,isSelected:Boolean,onClick:()->Unit){
 
     val navController = rememberNavController()
     val background=if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else Color.Transparent
-    val contentColor=if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.onBackground
+    val contentColor=if (isSelected) MaterialTheme.colors.primary else if (isSystemInDarkTheme()) Color.White else MaterialTheme.colors.onBackground
 
     Box(
         modifier = Modifier

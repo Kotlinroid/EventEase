@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -74,7 +75,7 @@ fun MovieDetail(
                     .size(110.dp)
                     .padding(24.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(Color.White)
+                    .background( if (isSystemInDarkTheme()) Color.Black else Color.White)
                     .border(
                         BorderStroke(2.dp, Color.LightGray),
                         shape = RoundedCornerShape(16.dp)
@@ -83,7 +84,7 @@ fun MovieDetail(
                 Icon(
                     imageVector = Icons.Default.ArrowBackIosNew,
                     contentDescription = "Back",
-                    tint = Color.Black
+                    tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )
             }
 
@@ -97,8 +98,8 @@ fun MovieDetail(
                                 brush = Brush.verticalGradient(
                                     colors = listOf(
                                         Color.Transparent,
-                                        Color.White.copy(alpha = 0.7f),
-                                        Color.White
+                                        if (isSystemInDarkTheme()) Color.Black.copy(alpha = 0.7f) else Color.White.copy(alpha = 0.7f),
+                                        if (isSystemInDarkTheme()) Color.Black else Color.White
                                     )
                                 )
                             )
@@ -109,7 +110,7 @@ fun MovieDetail(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.White)
+                            .background(if (isSystemInDarkTheme()) Color.Black else Color.White)
                     ) {
 
 
@@ -126,7 +127,7 @@ fun MovieDetail(
                         text = items.title,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        color = Color.Black,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = poppinsFontFamily
@@ -135,7 +136,7 @@ fun MovieDetail(
                         text = items.duration + " \u2022 " + items.genre + " \u2022 " + items.certificate + " \u2022 " + items.date + " " + items.month.take(
                             3
                         ) + ", " + items.year,
-                        color = Color.Black,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         fontSize = 12.sp
                     )
 
@@ -144,13 +145,13 @@ fun MovieDetail(
                     Box(
                         modifier = Modifier
                             .background(
-                                Color.Black,
+                                if (isSystemInDarkTheme()) Color.White else Color.Black,
                                 shape = RoundedCornerShape(14.dp)
                             )
                             .padding(top = 10.dp, bottom = 10.dp, start = 16.dp, end = 16.dp)
                     ) {
                         Text(
-                            text = "ABOUT", color = Color.White,
+                            text = "ABOUT", color = if (isSystemInDarkTheme()) Color.Black else Color.White,
                             fontWeight = FontWeight(600)
                         )
                     }
@@ -159,7 +160,7 @@ fun MovieDetail(
 
                     Text(
                         text = items.description,
-                        color = Color.Black,
+                        color = if (isSystemInDarkTheme()) Color.White else Color.Black,
                         modifier = Modifier
                             .height(160.dp)
                             .verticalScroll(rememberScrollState()),

@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -67,7 +68,7 @@ fun ForgotPassword(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White)
+            .background(color = if (isSystemInDarkTheme()) Color.Black else Color.White)
             .verticalScroll(rememberScrollState())
     ) {
 
@@ -84,13 +85,13 @@ fun ForgotPassword(
                 imageVector = Icons.Default.ArrowBackIosNew,
                 contentDescription = "Back Button",
                 modifier = Modifier.padding(16.dp),
-                tint = Color.Black
+                tint = if (isSystemInDarkTheme()) Color.White else Color.Black
             )
         }
 
         // Forgot Image
         Image(
-            painter = painterResource(id = R.drawable.forgot_password_image),
+            painter = painterResource(id = if (isSystemInDarkTheme()) R.drawable.forgot_password_image1 else R.drawable.forgot_password_image),
             contentDescription = "Login Image",
             modifier = Modifier
                 .fillMaxWidth()
@@ -107,7 +108,7 @@ fun ForgotPassword(
             maxLines = 2,
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.SemiBold,
-            color = Color.Black,
+            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
             fontSize = 32.sp,
             lineHeight = 48.sp,
 
@@ -119,7 +120,7 @@ fun ForgotPassword(
             text = "Provide your account's email for which you want to reset your password!",
             fontFamily = poppinsFontFamily,
             fontWeight = FontWeight.Normal,
-            color = Color.Black,
+            color = if (isSystemInDarkTheme()) Color.White else Color.Black,
             fontSize = 16.sp,
 
             )
@@ -140,7 +141,7 @@ fun ForgotPassword(
                 Icon(
                     imageVector = Icons.Default.Email,
                     contentDescription = "",
-                    tint = Color.Black
+                    tint = if (isSystemInDarkTheme()) Color.White else Color.Black
                 )
             },
             label = { Text(text = "Email") },
@@ -152,8 +153,8 @@ fun ForgotPassword(
                 focusedLabelColor = Color(0xFF006DBD),
                 unfocusedLabelColor = Color.Gray,
                 cursorColor = Color(0xFF006DBD),
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.Black
+                focusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                unfocusedTextColor = if (isSystemInDarkTheme()) Color.White else Color.Black
             ),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
         )
@@ -174,8 +175,8 @@ fun ForgotPassword(
                 .height(60.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Black,
-                contentColor = Color.White
+                containerColor = if (isSystemInDarkTheme()) Color.White else Color.Black,
+                contentColor = if (isSystemInDarkTheme()) Color.Black else Color.White
             )
         ) {
             Text(
